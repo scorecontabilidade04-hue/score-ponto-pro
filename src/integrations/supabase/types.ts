@@ -112,27 +112,100 @@ export type Database = {
       }
       empresas: {
         Row: {
+          ativo: boolean
           cnpj: string | null
           configuracoes: Json
           created_at: string
+          criado_por: string | null
+          email: string | null
+          endereco: string | null
           id: string
           nome: string
+          nome_fantasia: string | null
+          razao_social: string | null
+          telefone: string | null
         }
         Insert: {
+          ativo?: boolean
           cnpj?: string | null
           configuracoes?: Json
           created_at?: string
+          criado_por?: string | null
+          email?: string | null
+          endereco?: string | null
           id?: string
           nome: string
+          nome_fantasia?: string | null
+          razao_social?: string | null
+          telefone?: string | null
         }
         Update: {
+          ativo?: boolean
           cnpj?: string | null
           configuracoes?: Json
           created_at?: string
+          criado_por?: string | null
+          email?: string | null
+          endereco?: string | null
           id?: string
           nome?: string
+          nome_fantasia?: string | null
+          razao_social?: string | null
+          telefone?: string | null
         }
         Relationships: []
+      }
+      funcionario_jornadas: {
+        Row: {
+          created_at: string
+          empresa_id: string
+          fim_em: string | null
+          funcionario_id: string
+          id: string
+          inicio_em: string
+          jornada_id: string
+        }
+        Insert: {
+          created_at?: string
+          empresa_id: string
+          fim_em?: string | null
+          funcionario_id: string
+          id?: string
+          inicio_em?: string
+          jornada_id: string
+        }
+        Update: {
+          created_at?: string
+          empresa_id?: string
+          fim_em?: string | null
+          funcionario_id?: string
+          id?: string
+          inicio_em?: string
+          jornada_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "funcionario_jornadas_empresa_id_fkey"
+            columns: ["empresa_id"]
+            isOneToOne: false
+            referencedRelation: "empresas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "funcionario_jornadas_funcionario_id_fkey"
+            columns: ["funcionario_id"]
+            isOneToOne: false
+            referencedRelation: "funcionarios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "funcionario_jornadas_jornada_id_fkey"
+            columns: ["jornada_id"]
+            isOneToOne: false
+            referencedRelation: "jornadas"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       funcionarios: {
         Row: {
@@ -140,11 +213,16 @@ export type Database = {
           cargo: string | null
           cpf: string | null
           created_at: string
+          data_admissao: string | null
+          data_nascimento: string | null
           departamento: string | null
+          email: string | null
           empresa_id: string
           id: string
           jornada_id: string | null
           nome: string
+          telefone: string | null
+          tipo_contrato: Database["public"]["Enums"]["tipo_contrato"]
           user_id: string | null
         }
         Insert: {
@@ -152,11 +230,16 @@ export type Database = {
           cargo?: string | null
           cpf?: string | null
           created_at?: string
+          data_admissao?: string | null
+          data_nascimento?: string | null
           departamento?: string | null
+          email?: string | null
           empresa_id: string
           id?: string
           jornada_id?: string | null
           nome: string
+          telefone?: string | null
+          tipo_contrato?: Database["public"]["Enums"]["tipo_contrato"]
           user_id?: string | null
         }
         Update: {
@@ -164,11 +247,16 @@ export type Database = {
           cargo?: string | null
           cpf?: string | null
           created_at?: string
+          data_admissao?: string | null
+          data_nascimento?: string | null
           departamento?: string | null
+          email?: string | null
           empresa_id?: string
           id?: string
           jornada_id?: string | null
           nome?: string
+          telefone?: string | null
+          tipo_contrato?: Database["public"]["Enums"]["tipo_contrato"]
           user_id?: string | null
         }
         Relationships: [
@@ -190,29 +278,50 @@ export type Database = {
       }
       jornadas: {
         Row: {
+          ativo: boolean
           carga_diaria_minutos: number
           carga_semanal_minutos: number
           created_at: string
+          dias_descanso: string | null
+          dias_trabalhados: string | null
           empresa_id: string
+          hora_entrada: string | null
+          hora_saida: string | null
           id: string
+          intervalo_fim: string | null
+          intervalo_inicio: string | null
           nome: string
           tipo: Database["public"]["Enums"]["tipo_jornada"]
         }
         Insert: {
+          ativo?: boolean
           carga_diaria_minutos?: number
           carga_semanal_minutos?: number
           created_at?: string
+          dias_descanso?: string | null
+          dias_trabalhados?: string | null
           empresa_id: string
+          hora_entrada?: string | null
+          hora_saida?: string | null
           id?: string
+          intervalo_fim?: string | null
+          intervalo_inicio?: string | null
           nome: string
           tipo?: Database["public"]["Enums"]["tipo_jornada"]
         }
         Update: {
+          ativo?: boolean
           carga_diaria_minutos?: number
           carga_semanal_minutos?: number
           created_at?: string
+          dias_descanso?: string | null
+          dias_trabalhados?: string | null
           empresa_id?: string
+          hora_entrada?: string | null
+          hora_saida?: string | null
           id?: string
+          intervalo_fim?: string | null
+          intervalo_inicio?: string | null
           nome?: string
           tipo?: Database["public"]["Enums"]["tipo_jornada"]
         }
@@ -343,9 +452,14 @@ export type Database = {
         }
         Returns: boolean
       }
+      pode_gerir_empresa: {
+        Args: { _empresa_id: string; _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       app_role: "admin" | "gestor" | "funcionario"
+      tipo_contrato: "clt" | "estagiario"
       tipo_jornada:
         | "fixa"
         | "variavel"
@@ -487,6 +601,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "gestor", "funcionario"],
+      tipo_contrato: ["clt", "estagiario"],
       tipo_jornada: [
         "fixa",
         "variavel",
