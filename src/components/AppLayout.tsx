@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils";
 
 const menu = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, ativo: true },
-  { to: "/dashboard", label: "Empresa", icon: Building2, ativo: false },
-  { to: "/dashboard", label: "Funcionários", icon: Users, ativo: false },
-  { to: "/dashboard", label: "Jornadas", icon: CalendarClock, ativo: false },
+  { to: "/empresas", label: "Empresas", icon: Building2, ativo: true },
+  { to: "/funcionarios", label: "Funcionários", icon: Users, ativo: true },
+  { to: "/jornadas", label: "Jornadas", icon: CalendarClock, ativo: true },
 ];
 
 export function AppLayout({ children }: { children: ReactNode }) {
