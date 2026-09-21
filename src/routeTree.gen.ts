@@ -16,6 +16,8 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedEmpresasRouteImport } from './routes/_authenticated/empresas'
 import { Route as AuthenticatedFuncionariosRouteImport } from './routes/_authenticated/funcionarios'
 import { Route as AuthenticatedJornadasRouteImport } from './routes/_authenticated/jornadas'
+import { Route as AuthenticatedMeuPontoRouteImport } from './routes/_authenticated/meu-ponto'
+import { Route as AuthenticatedRegistrosRouteImport } from './routes/_authenticated/registros'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +54,16 @@ const AuthenticatedJornadasRoute = AuthenticatedJornadasRouteImport.update({
   path: '/jornadas',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMeuPontoRoute = AuthenticatedMeuPontoRouteImport.update({
+  id: '/meu-ponto',
+  path: '/meu-ponto',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRegistrosRoute = AuthenticatedRegistrosRouteImport.update({
+  id: '/registros',
+  path: '/registros',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,6 +72,8 @@ export interface FileRoutesByFullPath {
   '/empresas': typeof AuthenticatedEmpresasRoute
   '/funcionarios': typeof AuthenticatedFuncionariosRoute
   '/jornadas': typeof AuthenticatedJornadasRoute
+  '/meu-ponto': typeof AuthenticatedMeuPontoRoute
+  '/registros': typeof AuthenticatedRegistrosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -68,6 +82,8 @@ export interface FileRoutesByTo {
   '/empresas': typeof AuthenticatedEmpresasRoute
   '/funcionarios': typeof AuthenticatedFuncionariosRoute
   '/jornadas': typeof AuthenticatedJornadasRoute
+  '/meu-ponto': typeof AuthenticatedMeuPontoRoute
+  '/registros': typeof AuthenticatedRegistrosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -78,13 +94,30 @@ export interface FileRoutesById {
   '/_authenticated/empresas': typeof AuthenticatedEmpresasRoute
   '/_authenticated/funcionarios': typeof AuthenticatedFuncionariosRoute
   '/_authenticated/jornadas': typeof AuthenticatedJornadasRoute
+  '/_authenticated/meu-ponto': typeof AuthenticatedMeuPontoRoute
+  '/_authenticated/registros': typeof AuthenticatedRegistrosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/dashboard' | '/empresas' | '/funcionarios' | '/jornadas'
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/empresas'
+    | '/funcionarios'
+    | '/jornadas'
+    | '/meu-ponto'
+    | '/registros'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/dashboard' | '/empresas' | '/funcionarios' | '/jornadas'
+  to:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/empresas'
+    | '/funcionarios'
+    | '/jornadas'
+    | '/meu-ponto'
+    | '/registros'
   id:
     | '__root__'
     | '/'
@@ -94,6 +127,8 @@ export interface FileRouteTypes {
     | '/_authenticated/empresas'
     | '/_authenticated/funcionarios'
     | '/_authenticated/jornadas'
+    | '/_authenticated/meu-ponto'
+    | '/_authenticated/registros'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -153,6 +188,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedJornadasRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/meu-ponto': {
+      id: '/_authenticated/meu-ponto'
+      path: '/meu-ponto'
+      fullPath: '/meu-ponto'
+      preLoaderRoute: typeof AuthenticatedMeuPontoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/registros': {
+      id: '/_authenticated/registros'
+      path: '/registros'
+      fullPath: '/registros'
+      preLoaderRoute: typeof AuthenticatedRegistrosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -161,6 +210,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedEmpresasRoute: typeof AuthenticatedEmpresasRoute
   AuthenticatedFuncionariosRoute: typeof AuthenticatedFuncionariosRoute
   AuthenticatedJornadasRoute: typeof AuthenticatedJornadasRoute
+  AuthenticatedMeuPontoRoute: typeof AuthenticatedMeuPontoRoute
+  AuthenticatedRegistrosRoute: typeof AuthenticatedRegistrosRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -168,6 +219,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedEmpresasRoute: AuthenticatedEmpresasRoute,
   AuthenticatedFuncionariosRoute: AuthenticatedFuncionariosRoute,
   AuthenticatedJornadasRoute: AuthenticatedJornadasRoute,
+  AuthenticatedMeuPontoRoute: AuthenticatedMeuPontoRoute,
+  AuthenticatedRegistrosRoute: AuthenticatedRegistrosRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
