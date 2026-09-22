@@ -18,6 +18,7 @@ const menu = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, ativo: true },
   { to: "/meu-ponto", label: "Meu Ponto", icon: Clock, ativo: true },
   { to: "/registros", label: "Registros de Ponto", icon: ClipboardList, ativo: true },
+  { to: "/apuracao", label: "Apuração", icon: Calculator, ativo: true },
   { to: "/empresas", label: "Empresas", icon: Building2, ativo: true },
   { to: "/funcionarios", label: "Funcionários", icon: Users, ativo: true },
   { to: "/jornadas", label: "Jornadas", icon: CalendarClock, ativo: true },
