@@ -52,7 +52,7 @@ export function formatarMinutos(total: number) {
 export function diaPrevisto(dataIso: string, jornada?: JornadaCalculo | null) {
   if (!jornada?.dias_trabalhados) return true;
   const [a, m, d] = dataIso.slice(0, 10).split("-").map(Number);
-  const nome = DIAS_SEMANA[new Date(a, (m ?? 1) - 1, d).getDay()];
+  const nome = DIAS_SEMANA[new Date(a ?? 1970, (m ?? 1) - 1, d ?? 1).getDay()] ?? "";
   const lista = jornada.dias_trabalhados.toLowerCase();
   return lista.includes(nome);
 }
