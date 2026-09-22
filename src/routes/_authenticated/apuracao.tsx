@@ -170,13 +170,53 @@ function ApuracaoPage() {
     { titulo: "Saldo do período", valor: formatarMinutos(totais.saldoMinutos) },
   ];
 
+  function exportarCsv() {
+    const cabecalho = [
+      "Data",
+      "Funcionario",
+      "Trabalhado",
+      "Previsto",
+      "Intervalo",
+      "Atraso",
+      "Saida antecipada",
+      "Saldo",
+      "Situacao",
+    ];
+    const corpo = linhas.map((l) => [
+      dataBr(l.data),
+      nomeFunc(l.funcionario_id),
+      formatarMinutos(l.resultado.trabalhadoMinutos),
+      formatarMinutos(l.resultado.previstoMinutos),
+      formatarMinutos(l.resultado.intervaloMinutos),
+      formatarMinutos(l.resultado.atrasoMinutos),
+      formatarMinutos(l.resultado.saidaAntecipadaMinutos),
+      formatarMinutos(l.resultado.saldoMinutos),
+      l.resultado.completo ? "Completo" : "Incompleto",
+    ]);
+    const csv = [cabecalho, ...corpo]
+      .map((linha) => linha.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(";"))
+      .join("\n");
+    const url = URL.createObjectURL(new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `apuracao-${de}-a-${ate}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Apuração de Jornada</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Previsto x realizado, atrasos, excedentes e saldo de horas do período.
-        </p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">Apuração de Jornada</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Previsto x realizado, atrasos, excedentes e saldo de horas do período.
+          </p>
+        </div>
+        <Button variant="outline" onClick={exportarCsv} disabled={linhas.length === 0}>
+          <Download className="size-4" aria-hidden />
+          Exportar CSV
+        </Button>
       </div>
 
       <div className="grid gap-4 rounded-lg border border-border bg-card p-4 sm:grid-cols-2 lg:grid-cols-4">
