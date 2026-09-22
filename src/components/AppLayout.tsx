@@ -7,6 +7,7 @@ import {
   CalendarClock,
   Clock,
   ClipboardList,
+  Calculator,
   LogOut,
 } from "lucide-react";
 import type { ReactNode } from "react";

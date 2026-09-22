@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedApuracaoRouteImport } from './routes/_authenticated/apuracao'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedEmpresasRouteImport } from './routes/_authenticated/empresas'
 import { Route as AuthenticatedFuncionariosRouteImport } from './routes/_authenticated/funcionarios'
@@ -32,6 +33,11 @@ const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedApuracaoRoute = AuthenticatedApuracaoRouteImport.update({
+  id: '/apuracao',
+  path: '/apuracao',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
@@ -68,6 +74,7 @@ const AuthenticatedRegistrosRoute = AuthenticatedRegistrosRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/apuracao': typeof AuthenticatedApuracaoRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/empresas': typeof AuthenticatedEmpresasRoute
   '/funcionarios': typeof AuthenticatedFuncionariosRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/apuracao': typeof AuthenticatedApuracaoRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/empresas': typeof AuthenticatedEmpresasRoute
   '/funcionarios': typeof AuthenticatedFuncionariosRoute
@@ -90,6 +98,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/apuracao': typeof AuthenticatedApuracaoRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/empresas': typeof AuthenticatedEmpresasRoute
   '/_authenticated/funcionarios': typeof AuthenticatedFuncionariosRoute
@@ -102,6 +111,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/apuracao'
     | '/dashboard'
     | '/empresas'
     | '/funcionarios'
@@ -112,6 +122,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/apuracao'
     | '/dashboard'
     | '/empresas'
     | '/funcionarios'
@@ -123,6 +134,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/apuracao'
     | '/_authenticated/dashboard'
     | '/_authenticated/empresas'
     | '/_authenticated/funcionarios'
@@ -159,6 +171,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/apuracao': {
+      id: '/_authenticated/apuracao'
+      path: '/apuracao'
+      fullPath: '/apuracao'
+      preLoaderRoute: typeof AuthenticatedApuracaoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
@@ -206,6 +225,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedApuracaoRoute: typeof AuthenticatedApuracaoRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedEmpresasRoute: typeof AuthenticatedEmpresasRoute
   AuthenticatedFuncionariosRoute: typeof AuthenticatedFuncionariosRoute
@@ -215,6 +235,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedApuracaoRoute: AuthenticatedApuracaoRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedEmpresasRoute: AuthenticatedEmpresasRoute,
   AuthenticatedFuncionariosRoute: AuthenticatedFuncionariosRoute,
