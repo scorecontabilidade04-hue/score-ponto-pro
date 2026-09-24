@@ -421,6 +421,79 @@ export type Database = {
           },
         ]
       }
+      solicitacoes_ajuste: {
+        Row: {
+          analisado_em: string | null
+          analisado_por: string | null
+          created_at: string
+          data: string
+          empresa_id: string
+          funcionario_id: string
+          hora_solicitada: string
+          id: string
+          motivo: string
+          observacao: string | null
+          registro_id: string | null
+          solicitante_id: string
+          status: string
+          tipo: Database["public"]["Enums"]["tipo_registro"]
+        }
+        Insert: {
+          analisado_em?: string | null
+          analisado_por?: string | null
+          created_at?: string
+          data: string
+          empresa_id: string
+          funcionario_id: string
+          hora_solicitada: string
+          id?: string
+          motivo: string
+          observacao?: string | null
+          registro_id?: string | null
+          solicitante_id?: string
+          status?: string
+          tipo: Database["public"]["Enums"]["tipo_registro"]
+        }
+        Update: {
+          analisado_em?: string | null
+          analisado_por?: string | null
+          created_at?: string
+          data?: string
+          empresa_id?: string
+          funcionario_id?: string
+          hora_solicitada?: string
+          id?: string
+          motivo?: string
+          observacao?: string | null
+          registro_id?: string | null
+          solicitante_id?: string
+          status?: string
+          tipo?: Database["public"]["Enums"]["tipo_registro"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "solicitacoes_ajuste_empresa_id_fkey"
+            columns: ["empresa_id"]
+            isOneToOne: false
+            referencedRelation: "empresas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "solicitacoes_ajuste_funcionario_id_fkey"
+            columns: ["funcionario_id"]
+            isOneToOne: false
+            referencedRelation: "funcionarios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "solicitacoes_ajuste_registro_id_fkey"
+            columns: ["registro_id"]
+            isOneToOne: false
+            referencedRelation: "registros_ponto"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string
