@@ -134,7 +134,7 @@ function AjustesPage() {
               data: s.data,
               tipo: s.tipo,
               hora: s.hora_solicitada,
-              usuario_id: ctx?.uid,
+              usuario_id: ctx?.uid ?? null,
               dispositivo: "ajuste aprovado",
             })
             .select("id")
@@ -148,7 +148,7 @@ function AjustesPage() {
           valor_anterior: anterior,
           valor_novo: s.hora_solicitada,
           motivo: s.motivo,
-          responsavel_id: ctx?.uid,
+          responsavel_id: ctx?.uid ?? null,
         });
         if (eAj) throw eAj;
       }
@@ -156,7 +156,7 @@ function AjustesPage() {
         .from("solicitacoes_ajuste")
         .update({
           status: aprovar ? "aprovado" : "rejeitado",
-          analisado_por: ctx?.uid,
+          analisado_por: ctx?.uid ?? null,
           analisado_em: new Date().toISOString(),
         })
         .eq("id", s.id);
