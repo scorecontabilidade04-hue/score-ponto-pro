@@ -110,6 +110,63 @@ export type Database = {
           },
         ]
       }
+      convites_usuario: {
+        Row: {
+          criado_por: string | null
+          data_envio: string
+          data_expiracao: string
+          email: string
+          empresa_id: string
+          funcionario_id: string
+          id: string
+          pin_hash: string
+          status: string
+          token: string
+          usuario_id: string | null
+        }
+        Insert: {
+          criado_por?: string | null
+          data_envio?: string
+          data_expiracao?: string
+          email: string
+          empresa_id: string
+          funcionario_id: string
+          id?: string
+          pin_hash: string
+          status?: string
+          token: string
+          usuario_id?: string | null
+        }
+        Update: {
+          criado_por?: string | null
+          data_envio?: string
+          data_expiracao?: string
+          email?: string
+          empresa_id?: string
+          funcionario_id?: string
+          id?: string
+          pin_hash?: string
+          status?: string
+          token?: string
+          usuario_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "convites_usuario_empresa_id_fkey"
+            columns: ["empresa_id"]
+            isOneToOne: false
+            referencedRelation: "empresas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "convites_usuario_funcionario_id_fkey"
+            columns: ["funcionario_id"]
+            isOneToOne: false
+            referencedRelation: "funcionarios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       empresas: {
         Row: {
           ativo: boolean
@@ -209,11 +266,14 @@ export type Database = {
       }
       funcionarios: {
         Row: {
+          acesso_email: string | null
+          acesso_status: string
           ativo: boolean
           cargo: string | null
           cpf: string | null
           created_at: string
           data_admissao: string | null
+          data_ativacao: string | null
           data_nascimento: string | null
           departamento: string | null
           email: string | null
@@ -226,11 +286,14 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          acesso_email?: string | null
+          acesso_status?: string
           ativo?: boolean
           cargo?: string | null
           cpf?: string | null
           created_at?: string
           data_admissao?: string | null
+          data_ativacao?: string | null
           data_nascimento?: string | null
           departamento?: string | null
           email?: string | null
@@ -243,11 +306,14 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          acesso_email?: string | null
+          acesso_status?: string
           ativo?: boolean
           cargo?: string | null
           cpf?: string | null
           created_at?: string
           data_admissao?: string | null
+          data_ativacao?: string | null
           data_nascimento?: string | null
           departamento?: string | null
           email?: string | null
@@ -338,24 +404,36 @@ export type Database = {
       profiles: {
         Row: {
           created_at: string
+          data_ativacao: string | null
           email: string
           empresa_id: string | null
+          funcionario_id: string | null
           id: string
           nome: string
+          perfil: string
+          status_acesso: string
         }
         Insert: {
           created_at?: string
+          data_ativacao?: string | null
           email?: string
           empresa_id?: string | null
+          funcionario_id?: string | null
           id: string
           nome?: string
+          perfil?: string
+          status_acesso?: string
         }
         Update: {
           created_at?: string
+          data_ativacao?: string | null
           email?: string
           empresa_id?: string | null
+          funcionario_id?: string | null
           id?: string
           nome?: string
+          perfil?: string
+          status_acesso?: string
         }
         Relationships: [
           {
@@ -363,6 +441,13 @@ export type Database = {
             columns: ["empresa_id"]
             isOneToOne: false
             referencedRelation: "empresas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profiles_funcionario_id_fkey"
+            columns: ["funcionario_id"]
+            isOneToOne: false
+            referencedRelation: "funcionarios"
             referencedColumns: ["id"]
           },
         ]
