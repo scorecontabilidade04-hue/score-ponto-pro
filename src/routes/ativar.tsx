@@ -32,8 +32,8 @@ function AtivarPage() {
 
   async function enviar(e: React.FormEvent) {
     e.preventDefault();
-    if (f.senha.length < 8) return toast.error("A senha deve ter pelo menos 8 caracteres.");
-    if (f.senha !== f.confirma) return toast.error("As senhas não conferem.");
+    if (f.senha.length < 8) { toast.error("A senha deve ter pelo menos 8 caracteres."); return; }
+    if (f.senha !== f.confirma) { toast.error("As senhas não conferem."); return; }
     setEnviando(true);
     try {
       await ativar({ data: { token: token ?? "", email: f.email, pin: f.pin, senha: f.senha } });
