@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Plus, Search, Pencil, Eye } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { listarEmpresas } from "@/lib/empresas";
+import { AcessoDialog, ROTULO_ACESSO } from "@/components/AcessoDialog";
 import { cpfValido, dataBr, formatarCpf, soNumeros } from "@/lib/br";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -64,6 +65,9 @@ type Funcionario = {
   tipo_contrato: "clt" | "estagiario";
   jornada_id: string | null;
   ativo: boolean;
+  acesso_email?: string | null;
+  acesso_status?: string;
+  user_id?: string | null;
 };
 
 type JornadaSimples = { id: string; empresa_id: string; nome: string; ativo: boolean };
@@ -94,6 +98,7 @@ function FuncionariosPage() {
   const [editando, setEditando] = useState<Funcionario | null>(null);
   const [detalhe, setDetalhe] = useState<Funcionario | null>(null);
   const [form, setForm] = useState(vazio);
+  const [acesso, setAcesso] = useState<Funcionario | null>(null);
 
   const { data: empresas = [] } = useQuery({ queryKey: ["empresas"], queryFn: listarEmpresas });
 
@@ -115,7 +120,7 @@ function FuncionariosPage() {
       const { data, error } = await supabase
         .from("funcionarios")
         .select(
-          "id, empresa_id, nome, cpf, data_nascimento, email, telefone, cargo, departamento, data_admissao, tipo_contrato, jornada_id, ativo",
+          "id, empresa_id, nome, cpf, data_nascimento, email, telefone, cargo, departamento, data_admissao, tipo_contrato, jornada_id, ativo, acesso_email, acesso_status, user_id",
         )
         .order("created_at", { ascending: false });
       if (error) throw error;
@@ -345,20 +350,21 @@ function FuncionariosPage() {
               <TableHead>Jornada</TableHead>
               <TableHead>Contrato</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Acesso</TableHead>
               <TableHead className="text-right">Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading && (
               <TableRow>
-                <TableCell colSpan={9} className="text-sm text-muted-foreground">
+                <TableCell colSpan={10} className="text-sm text-muted-foreground">
                   Carregando...
                 </TableCell>
               </TableRow>
             )}
             {!isLoading && filtrados.length === 0 && (
               <TableRow>
-                <TableCell colSpan={9} className="text-sm text-muted-foreground">
+                <TableCell colSpan={10} className="text-sm text-muted-foreground">
                   Nenhum funcionário encontrado.
                 </TableCell>
               </TableRow>
@@ -378,7 +384,11 @@ function FuncionariosPage() {
                   </Badge>
                 </TableCell>
                 <TableCell>
+                  <Badge variant="outline">{ROTULO_ACESSO[f.acesso_status ?? "sem_acesso"]}</Badge>
+                </TableCell>
+                <TableCell>
                   <div className="flex justify-end gap-1">
+                    <Button variant="ghost" size="sm" onClick={() => setAcesso(f)}>Acesso</Button>
                     <Button variant="ghost" size="sm" onClick={() => setDetalhe(f)}>
                       <Eye className="size-4" aria-hidden />
                       <span className="sr-only">Detalhes</span>
@@ -397,6 +407,8 @@ function FuncionariosPage() {
           </TableBody>
         </Table>
       </div>
+
+      <AcessoDialog func={acesso} onClose={() => setAcesso(null)} />
 
       <Dialog open={aberto} onOpenChange={setAberto}>
         <DialogContent className="max-w-2xl">
